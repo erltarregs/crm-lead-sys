@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.schemas.user import UserCreate, UserRead
+from app.schemas.user import UserCreate, UserRead, UserResponse
 from app.crud.user import create_user, get_users, get_user_by_email
-from app.api.deps import get_db, get_current_user
+from app.api.deps import get_db, get_current_user, get_current_active_admin
 from fastapi.security import OAuth2PasswordRequestForm
 from app.core.security import verify_password, create_access_token
 from app.models.user import User
@@ -19,10 +19,13 @@ async def create(user: UserCreate, db: AsyncSession = Depends(get_db)):
 		hashed_password = user.password
 		)
 
-@router.get("/users", response_model = list[UserRead])
+# @router.get("/users", response_model = list[UserRead])
+@router.get("/users", response_model = list[UserResponse])
 # async def list_users(db: Session = Depends(get_db)):
 # async def list_users(db: AsyncSession = Depends(get_db)):
-async def list_users(db: AsyncSession = Depends(get_db), current_user: User = Depends(get_current_user),):
+# async def list_users(db: AsyncSession = Depends(get_db), current_user: User = Depends(get_current_user),):
+async def list_users(db: AsyncSession = Depends(get_db), current_user: User = Depends(get_current_active_admin),):
+
 	return await get_users(db)
 
 
