@@ -2,7 +2,7 @@
 from app.models.user import User
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from app.schemas.user import UserCreate
+from app.schemas.user import UserCreate, UserUpdate
 from app.core.security import hash_password
 
 
@@ -29,3 +29,11 @@ async def create_user(db: AsyncSession, user: UserCreate):
 
 	return db_user
 	# print(type(user.password), user.password)
+
+async def update_user(db: AsyncSession, db_user: User, user_update: UserUpdate,):
+	for field, value in user_update.dict(exclude_unset=True).items():
+		setattr(db_user, field, value)
+
+	await db.commit()
+	await db.refresh(db_user)
+	return db_user
