@@ -12,12 +12,7 @@ router = APIRouter()
 
 @router.post("/users", response_model = UserRead)
 async def create(user: UserCreate, db: AsyncSession = Depends(get_db)):
-	return await create_user(
-		db,
-		email = user.email,
-		full_name = user.full_name,
-		hashed_password = user.password
-		)
+	return await create_user(db, user)
 
 # @router.get("/users", response_model = list[UserRead])
 @router.get("/users", response_model = list[UserResponse])
