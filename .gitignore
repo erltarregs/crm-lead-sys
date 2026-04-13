@@ -11,6 +11,12 @@ env.bak/
 venv.bak/
 .env
 
+# Cache directories
+app/cache/
+*.cache
+__pycache__/
+*.pyc
+
 # Distribution / packaging
 .Python
 build/
