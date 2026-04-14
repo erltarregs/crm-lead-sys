@@ -1,6 +1,6 @@
 .DS_Store
 node_modules/
-__pycache__/
+**/__pycache__/
 
 # Environments
 .venv
@@ -14,8 +14,8 @@ venv.bak/
 # Cache directories
 app/cache/
 *.cache
-__pycache__/
 *.pyc
+__pycache__/
 
 # Distribution / packaging
 .Python
